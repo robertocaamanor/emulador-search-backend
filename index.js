@@ -65,26 +65,11 @@ app.use(express.static(__dirname+'/public'));
 app.get('/videos', rutasProtegidas, function(req, res) {
     let busqueda = req.query.busqueda;
     if(busqueda!=null){
-      axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&q='+busqueda+'&key='+api_key_youtube)
-      .then(response => {
-          let data = response.data.items;
-          // console.log(data);
-          // const filters = busqueda;
-          // const filteredUsers = data.filter(user => {
-          // let isValid = true;
-          // for (key in filters) {
-          //     console.log(key, user[key], filters[key]);
-          //     isValid = isValid && user[key] == filters[key];
-          // }
-          // return isValid;
-      // });
-      res.send(data);
-      })
-      .catch(error => {
-          console.log(error);
-      });
+      var uri = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+busqueda+'&key='+api_key_youtube
     }else{
-      axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key='+api_key_youtube)
+      var uri = 'https://www.googleapis.com/youtube/v3/search?part=snippet&key='+api_key_youtube
+    }
+    axios.get(uri)
       .then(response => {
           let data = response.data.items;
           // console.log(data);
@@ -102,7 +87,6 @@ app.get('/videos', rutasProtegidas, function(req, res) {
       .catch(error => {
           console.log(error);
       });
-    }
     
     
 
