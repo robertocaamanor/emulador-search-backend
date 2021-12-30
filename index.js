@@ -1,6 +1,7 @@
 var express = require('express')
-const data = require("./model/videos"); //llamamos a Express
+// const data = require("./model/videos"); //llamamos a Express
 var app = express();
+const axios = require('axios');
 const bodyParser = require('body-parser'),    
       jwt = require('jsonwebtoken'),
       config = require('./configs/config');
@@ -62,8 +63,12 @@ rutasProtegidas.use((req, res, next) => {
 app.use(express.static(__dirname+'/public'));
 
 app.get('/videos', rutasProtegidas, function(req, res) {
-    const filters = req.query;
-    const filteredUsers = data.filter(user => {
+    axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyD7dvemGuT0LHqaJ1UlVrrjCBPBQbJd_L8')
+    .then(response => {
+        let data = response.data.items;
+        console.log(data);
+        const filters = req.query;
+        const filteredUsers = data.filter(user => {
         let isValid = true;
         for (key in filters) {
             console.log(key, user[key], filters[key]);
@@ -72,6 +77,11 @@ app.get('/videos', rutasProtegidas, function(req, res) {
         return isValid;
     });
     res.send(filteredUsers);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+    
 
 })
 var port = process.env.PORT || 8080  // establecemos nuestro puerto
