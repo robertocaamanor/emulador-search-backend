@@ -5,7 +5,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser'),    
       jwt = require('jsonwebtoken'),
       config = require('./configs/config');
-
+var api_key_youtube = 'AIzaSyD7dvemGuT0LHqaJ1UlVrrjCBPBQbJd_L8';
 
 //enable CORS for request verbs
 app.use(function(req, res, next) {
@@ -63,24 +63,47 @@ rutasProtegidas.use((req, res, next) => {
 app.use(express.static(__dirname+'/public'));
 
 app.get('/videos', rutasProtegidas, function(req, res) {
-    axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key=AIzaSyD7dvemGuT0LHqaJ1UlVrrjCBPBQbJd_L8')
-    .then(response => {
-        let data = response.data.items;
-        console.log(data);
-        const filters = req.query;
-        const filteredUsers = data.filter(user => {
-        let isValid = true;
-        for (key in filters) {
-            console.log(key, user[key], filters[key]);
-            isValid = isValid && user[key] == filters[key];
-        }
-        return isValid;
-    });
-    res.send(filteredUsers);
-    })
-    .catch(error => {
-        console.log(error);
-    });
+    let busqueda = req.query.busqueda;
+    if(busqueda!=null){
+      axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&q='+busqueda+'&key='+api_key_youtube)
+      .then(response => {
+          let data = response.data.items;
+          // console.log(data);
+          // const filters = busqueda;
+          // const filteredUsers = data.filter(user => {
+          // let isValid = true;
+          // for (key in filters) {
+          //     console.log(key, user[key], filters[key]);
+          //     isValid = isValid && user[key] == filters[key];
+          // }
+          // return isValid;
+      // });
+      res.send(data);
+      })
+      .catch(error => {
+          console.log(error);
+      });
+    }else{
+      axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key='+api_key_youtube)
+      .then(response => {
+          let data = response.data.items;
+          // console.log(data);
+          // const filters = busqueda;
+          // const filteredUsers = data.filter(user => {
+          // let isValid = true;
+          // for (key in filters) {
+          //     console.log(key, user[key], filters[key]);
+          //     isValid = isValid && user[key] == filters[key];
+          // }
+          // return isValid;
+      // });
+      res.send(data);
+      })
+      .catch(error => {
+          console.log(error);
+      });
+    }
+    
     
 
 })
