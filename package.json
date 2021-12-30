@@ -1,0 +1,17 @@
+{
+  "name": "youtube-api-emulator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "api-key-auth": "^0.2.3",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
