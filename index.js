@@ -5,7 +5,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser'),    
       jwt = require('jsonwebtoken'),
       config = require('./configs/config');
-var api_key_youtube = 'AIzaSyDhkPErWyr2ABBy_OeqjMhasYXIVKnLXHY';
+var api_key_youtube = 'AIzaSyD7dvemGuT0LHqaJ1UlVrrjCBPBQbJd_L8';
 
 //enable CORS for request verbs
 app.use(function(req, res, next) {
