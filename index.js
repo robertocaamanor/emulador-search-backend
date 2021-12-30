@@ -5,7 +5,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser'),    
       jwt = require('jsonwebtoken'),
       config = require('./configs/config');
-var api_key_youtube = 'AIzaSyD7dvemGuT0LHqaJ1UlVrrjCBPBQbJd_L8';
+var api_key_youtube = 'AIzaSyDhkPErWyr2ABBy_OeqjMhasYXIVKnLXHY';
 
 //enable CORS for request verbs
 app.use(function(req, res, next) {
@@ -64,25 +64,31 @@ app.use(express.static(__dirname+'/public'));
 
 app.get('/videos', rutasProtegidas, function(req, res) {
     let busqueda = req.query.busqueda;
-    if(busqueda!=null){
+    if(busqueda!=''){
       var uri = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='+busqueda+'&key='+api_key_youtube
     }else{
       var uri = 'https://www.googleapis.com/youtube/v3/search?part=snippet&key='+api_key_youtube
     }
     axios.get(uri)
       .then(response => {
-          let data = response.data.items;
-          // console.log(data);
-          // const filters = busqueda;
-          // const filteredUsers = data.filter(user => {
-          // let isValid = true;
-          // for (key in filters) {
-          //     console.log(key, user[key], filters[key]);
-          //     isValid = isValid && user[key] == filters[key];
-          // }
-          // return isValid;
-      // });
-      res.send(data);
+        if(response.data.items){
+            let data = response.data.items;
+            // console.log(data);
+            // const filters = busqueda;
+            // const filteredUsers = data.filter(user => {
+            // let isValid = true;
+            // for (key in filters) {
+            //     console.log(key, user[key], filters[key]);
+            //     isValid = isValid && user[key] == filters[key];
+            // }
+            // return isValid;
+        // });
+          console.log(response.data);
+          res.send(data);
+        }else{
+          console.log(data.error);
+          res.send(data.error);
+        }
       })
       .catch(error => {
           console.log(error);
